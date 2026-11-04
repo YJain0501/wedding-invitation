@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Shagun-E-Mayra artwork">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#35080F"/>
+      <stop offset="100%" stop-color="#24050A"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <circle cx="600" cy="390" r="210" fill="#C69A52" fill-opacity="0.2"/>
+  <path d="M350 540 Q600 210 850 540" fill="none" stroke="#F4D99A" stroke-width="5" stroke-opacity="0.45"/>
+  <text x="600" y="430" text-anchor="middle" fill="#F4D99A" font-size="64" font-family="Cinzel, serif" letter-spacing="8">SHAGUN-E-MAYRA</text>
+</svg>

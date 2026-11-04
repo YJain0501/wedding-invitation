@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" role="img" aria-label="Wedding venue illustration">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2A070D"/>
+      <stop offset="100%" stop-color="#4A1018"/>
+    </linearGradient>
+    <linearGradient id="palace" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F4D99A"/>
+      <stop offset="100%" stop-color="#D6AD63"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+  <rect x="220" y="580" width="960" height="220" fill="url(#palace)" opacity="0.35"/>
+  <rect x="300" y="390" width="120" height="190" fill="url(#palace)" opacity="0.45"/>
+  <rect x="980" y="390" width="120" height="190" fill="url(#palace)" opacity="0.45"/>
+  <rect x="530" y="320" width="340" height="260" fill="url(#palace)" opacity="0.5"/>
+  <path d="M500 320 Q700 120 900 320 Z" fill="url(#palace)" opacity="0.5"/>
+  <g stroke="#F4D99A" stroke-opacity="0.3">
+    <path d="M220 700 H1180"/>
+    <path d="M250 740 H1150"/>
+  </g>
+  <circle cx="700" cy="200" r="90" fill="#F4D99A" opacity="0.18"/>
+</svg>

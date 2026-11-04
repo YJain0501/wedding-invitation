@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Procession artwork">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#35080F"/>
+      <stop offset="100%" stop-color="#4A1018"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <path d="M160 650 H1040" stroke="#F4D99A" stroke-width="4" stroke-opacity="0.35"/>
+  <g fill="#C69A52" fill-opacity="0.35">
+    <circle cx="280" cy="550" r="60"/>
+    <circle cx="500" cy="510" r="70"/>
+    <circle cx="720" cy="540" r="62"/>
+    <circle cx="920" cy="500" r="58"/>
+  </g>
+  <text x="600" y="390" text-anchor="middle" fill="#F4D99A" font-size="66" font-family="Cinzel, serif" letter-spacing="8">PROCESSION</text>
+</svg>

@@ -1,0 +1,213 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100svh;
+    font-family: theme('fontFamily.sans');
+    background-color: var(--royal-burgundy-dark);
+    color: var(--royal-ivory);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+
+  #root {
+    min-height: 100svh;
+  }
+}
+
+@layer components {
+  .ornamental-frame {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(
+          rgba(36, 5, 10, 0.78),
+          rgba(36, 5, 10, 0.78)
+        )
+        padding-box,
+      var(--ornamental-border) border-box;
+  }
+
+  .gold-pill {
+    border-radius: 9999px;
+    border: 1px solid rgba(214, 173, 99, 0.48);
+    background: rgba(74, 16, 24, 0.65);
+    padding: 0.4rem 0.85rem;
+    font-family: theme('fontFamily.serif');
+    font-size: 0.8rem;
+    letter-spacing: 0.07em;
+    color: var(--royal-gold-light);
+    text-transform: uppercase;
+  }
+
+  .code-chip {
+    border-radius: 0.5rem;
+    border: 1px solid rgba(214, 173, 99, 0.28);
+    background-color: rgba(74, 16, 24, 0.65);
+    padding: 0.2rem 0.45rem;
+    color: var(--royal-gold-light);
+  }
+
+  .gold-text-gradient {
+    background: linear-gradient(
+      145deg,
+      #fff3cf 0%,
+      #f4d99a 28%,
+      #d6ad63 60%,
+      #ffefca 100%
+    );
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .ornamental-separator {
+    position: relative;
+    width: min(240px, 70%);
+    height: 1px;
+    margin: 0.95rem auto 0;
+    background: linear-gradient(
+      90deg,
+      rgba(214, 173, 99, 0),
+      rgba(214, 173, 99, 0.95),
+      rgba(214, 173, 99, 0)
+    );
+  }
+
+  .ornamental-separator::before,
+  .ornamental-separator::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(244, 217, 154, 0.9);
+    background: rgba(214, 173, 99, 0.95);
+    top: -4.5px;
+  }
+
+  .ornamental-separator::before {
+    left: calc(50% - 18px);
+  }
+
+  .ornamental-separator::after {
+    right: calc(50% - 18px);
+  }
+
+  .royal-card {
+    border-radius: 1.3rem;
+    border: 1px solid rgba(214, 173, 99, 0.32);
+    background:
+      linear-gradient(rgba(72, 16, 26, 0.9), rgba(53, 8, 15, 0.9))
+        padding-box,
+      var(--ornamental-border) border-box;
+    box-shadow:
+      0 16px 28px rgba(19, 5, 9, 0.35),
+      inset 0 0 35px rgba(214, 173, 99, 0.06);
+  }
+
+  .palace-arch {
+    border-radius: 1.6rem 1.6rem 0.6rem 0.6rem;
+    border: 1px solid rgba(214, 173, 99, 0.4);
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(244, 217, 154, 0.18),
+        rgba(53, 8, 15, 0.72) 45%,
+        rgba(36, 5, 10, 0.95) 85%
+      );
+    box-shadow:
+      inset 0 0 60px rgba(214, 173, 99, 0.22),
+      0 22px 44px rgba(18, 4, 8, 0.55);
+  }
+
+  .palace-door {
+    position: relative;
+    border: 1px solid rgba(214, 173, 99, 0.52);
+    background:
+      radial-gradient(
+        circle at 50% 20%,
+        rgba(244, 217, 154, 0.22),
+        rgba(132, 46, 28, 0.25) 30%,
+        rgba(67, 15, 23, 0.9) 75%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(53, 8, 15, 0.6) 0%,
+        rgba(36, 5, 10, 0.9) 100%
+      );
+    overflow: hidden;
+    backface-visibility: hidden;
+  }
+
+  .palace-door::before {
+    content: '';
+    position: absolute;
+    inset: 8% 10%;
+    border: 1px solid rgba(244, 217, 154, 0.35);
+    border-radius: 0.8rem;
+    background:
+      repeating-linear-gradient(
+        45deg,
+        rgba(214, 173, 99, 0.12) 0 4px,
+        transparent 4px 9px
+      );
+  }
+
+  .palace-door::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(244, 217, 154, 0.9);
+    background: radial-gradient(
+      circle at 35% 35%,
+      rgba(255, 249, 234, 0.92),
+      rgba(214, 173, 99, 0.9) 60%,
+      rgba(120, 76, 35, 0.95) 100%
+    );
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 18px rgba(214, 173, 99, 0.75);
+  }
+
+  .palace-door-left::after {
+    right: 12px;
+  }
+
+  .palace-door-right::after {
+    left: 12px;
+  }
+
+  .light-burst {
+    background: radial-gradient(
+      circle at center,
+      rgba(244, 217, 154, 0.95) 0%,
+      rgba(244, 217, 154, 0.28) 36%,
+      rgba(244, 217, 154, 0) 72%
+    );
+    filter: blur(6px);
+  }
+
+  .scroll-fade {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%
+    );
+  }
+}

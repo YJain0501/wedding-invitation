@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1800" role="img" aria-label="Royal palace entrance background">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2A070D"/>
+      <stop offset="45%" stop-color="#35080F"/>
+      <stop offset="100%" stop-color="#4A1018"/>
+    </linearGradient>
+    <radialGradient id="light" cx="50%" cy="22%" r="52%">
+      <stop offset="0%" stop-color="#F4D99A" stop-opacity="0.45"/>
+      <stop offset="60%" stop-color="#F4D99A" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#F4D99A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="1800" fill="url(#bg)"/>
+  <rect width="1200" height="1800" fill="url(#light)"/>
+  <g opacity="0.4" stroke="#D6AD63" stroke-width="2">
+    <path d="M120 1580 Q600 320 1080 1580" fill="none"/>
+    <path d="M220 1640 Q600 460 980 1640" fill="none"/>
+    <path d="M320 1700 Q600 620 880 1700" fill="none"/>
+  </g>
+  <g fill="#D6AD63" opacity="0.18">
+    <circle cx="140" cy="260" r="120"/>
+    <circle cx="1060" cy="320" r="150"/>
+    <circle cx="600" cy="150" r="90"/>
+  </g>
+  <g stroke="#F4D99A" stroke-opacity="0.22">
+    <path d="M0 1460 H1200"/>
+    <path d="M0 1520 H1200"/>
+    <path d="M0 1580 H1200"/>
+  </g>
+</svg>

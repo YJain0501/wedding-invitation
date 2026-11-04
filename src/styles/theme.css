@@ -1,0 +1,16 @@
+:root {
+  --royal-burgundy: #35080f;
+  --royal-burgundy-dark: #24050a;
+  --royal-wine: #4a1018;
+  --royal-gold: #c69a52;
+  --royal-gold-light: #f4d99a;
+  --royal-cream: #fff0d5;
+  --royal-ivory: #fff3e5;
+  --royal-text: #2a1110;
+
+  --ornamental-border: linear-gradient(
+    150deg,
+    rgba(244, 217, 154, 0.68),
+    rgba(198, 154, 82, 0.4)
+  );
+}

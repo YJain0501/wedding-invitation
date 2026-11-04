@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Wedding moment five placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#35080F"/>
+      <stop offset="100%" stop-color="#24050A"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <path d="M140 220 H1060 M140 580 H1060" stroke="#D6AD63" stroke-opacity="0.35" stroke-width="4"/>
+  <path d="M180 260 H1020 M180 540 H1020" stroke="#F4D99A" stroke-opacity="0.25" stroke-width="2"/>
+  <text x="600" y="430" text-anchor="middle" fill="#F4D99A" font-size="72" font-family="Cinzel, serif" letter-spacing="8">MOMENT V</text>
+</svg>

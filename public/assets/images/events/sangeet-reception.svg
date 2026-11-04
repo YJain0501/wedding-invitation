@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Sangeet and reception artwork">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4A1018"/>
+      <stop offset="100%" stop-color="#24050A"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <g stroke="#C69A52" stroke-width="4" stroke-opacity="0.5">
+    <path d="M180 620 Q600 220 1020 620" fill="none"/>
+    <path d="M230 680 Q600 310 970 680" fill="none"/>
+  </g>
+  <text x="600" y="390" text-anchor="middle" fill="#F4D99A" font-size="56" font-family="Cinzel, serif" letter-spacing="8">SANGEET &amp; RECEPTION</text>
+</svg>

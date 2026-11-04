@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900" role="img" aria-label="Bride placeholder portrait">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#35080F"/>
+      <stop offset="100%" stop-color="#24050A"/>
+    </linearGradient>
+    <radialGradient id="ring" cx="50%" cy="45%" r="48%">
+      <stop offset="0%" stop-color="#F4D99A" stop-opacity="0.24"/>
+      <stop offset="100%" stop-color="#D6AD63" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="900" height="900" fill="url(#bg)"/>
+  <circle cx="450" cy="450" r="310" fill="url(#ring)"/>
+  <circle cx="450" cy="450" r="230" fill="none" stroke="#F4D99A" stroke-width="8" stroke-opacity="0.62"/>
+  <circle cx="450" cy="355" r="90" fill="#F4D99A" fill-opacity="0.65"/>
+  <path d="M290 670 Q450 480 610 670 Z" fill="#F4D99A" fill-opacity="0.5"/>
+  <text x="450" y="815" text-anchor="middle" fill="#F4D99A" font-size="78" font-family="Cinzel, serif" letter-spacing="8">BRIDE</text>
+</svg>
