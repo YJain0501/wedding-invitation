@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import { Music2, Pause, Play, Volume2, VolumeX } from 'lucide-react'
+import { Music2 } from 'lucide-react'
 
 interface MusicPlayerProps {
   src?: string
@@ -90,7 +90,6 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(funct
   const youtubeIframeRef = useRef<HTMLIFrameElement | null>(null)
   const queuedYouTubePlayRef = useRef(false)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [isMuted, setIsMuted] = useState(false)
   const [isAudioAvailable, setIsAudioAvailable] = useState(Boolean(src))
   const [isYouTubeReady, setIsYouTubeReady] = useState(false)
 
@@ -104,20 +103,10 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(funct
   )
   const usingYouTube = Boolean(youtubeVideoId)
   const hasAnySource = usingYouTube || Boolean(src)
-  const canControlPlayer = usingYouTube || isAudioAvailable
-
-  useEffect(() => {
-    const audioElement = audioRef.current
-
-    if (!audioElement || usingYouTube) {
-      return
-    }
-
-    audioElement.muted = isMuted
-  }, [isMuted, usingYouTube])
+  const canControlPlayer = usingYouTube ? isYouTubeReady : isAudioAvailable
 
   const postYouTubeCommand = useCallback(
-    (command: 'playVideo' | 'pauseVideo' | 'mute' | 'unMute') => {
+    (command: 'playVideo' | 'pauseVideo') => {
       const iframeWindow = youtubeIframeRef.current?.contentWindow
 
       if (!iframeWindow || !youtubeVideoId) {
@@ -143,9 +132,8 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(funct
     }
 
     postYouTubeCommand('playVideo')
-    postYouTubeCommand(isMuted ? 'mute' : 'unMute')
     setIsPlaying(true)
-  }, [isMuted, isYouTubeReady, postYouTubeCommand])
+  }, [isYouTubeReady, postYouTubeCommand])
 
   useEffect(() => {
     if (!usingYouTube || !isYouTubeReady) {
@@ -157,14 +145,6 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(funct
       playYouTube()
     }
   }, [isYouTubeReady, playYouTube, usingYouTube])
-
-  useEffect(() => {
-    if (!usingYouTube || !isYouTubeReady) {
-      return
-    }
-
-    postYouTubeCommand(isMuted ? 'mute' : 'unMute')
-  }, [isMuted, isYouTubeReady, postYouTubeCommand, usingYouTube])
 
   useImperativeHandle(
     ref,
@@ -214,7 +194,6 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(funct
     }
 
     const audioElement = audioRef.current
-
     if (!audioElement || !canControlPlayer) {
       return
     }
@@ -233,12 +212,8 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(funct
     }
   }
 
-  const toggleMute = () => {
-    setIsMuted((current) => !current)
-  }
-
   return (
-    <div className="fixed bottom-5 left-5 z-50 flex items-center gap-2 rounded-full border border-royal-gold/45 bg-royal-burgundyDark/85 px-2 py-1.5 shadow-gold backdrop-blur">
+    <div className={`im-music-toggle ${isPlaying ? 'im-music-toggle--playing' : ''}`}>
       {usingYouTube ? (
         <iframe
           ref={youtubeIframeRef}
@@ -256,7 +231,7 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(funct
           ref={audioRef}
           src={src}
           loop
-          preload="none"
+          preload="auto"
           onEnded={() => {
             setIsPlaying(false)
           }}
@@ -269,26 +244,24 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(funct
           }}
         />
       )}
-      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-royal-burgundy text-royal-goldLight">
-        <Music2 size={16} />
-      </span>
+
       <button
         type="button"
+        className="im-music-toggle__btn"
+        style={{ backgroundColor: 'rgba(255,255,255,0.72)', color: '#3a2f28' }}
         onClick={togglePlay}
         disabled={!canControlPlayer}
-        className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-royal-gold/40 text-royal-goldLight disabled:cursor-not-allowed disabled:opacity-45"
         aria-label={isPlaying ? 'Pause background music' : 'Play background music'}
       >
-        {isPlaying ? <Pause size={15} /> : <Play size={15} className="ml-0.5" />}
-      </button>
-      <button
-        type="button"
-        onClick={toggleMute}
-        disabled={!canControlPlayer}
-        className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-royal-gold/40 text-royal-goldLight disabled:cursor-not-allowed disabled:opacity-45"
-        aria-label={isMuted ? 'Unmute background music' : 'Mute background music'}
-      >
-        {isMuted ? <VolumeX size={15} /> : <Volume2 size={15} />}
+        <span className="im-music-toggle__icon im-music-toggle__icon--note">
+          <Music2 size={17} />
+        </span>
+        <span className="im-music-toggle__icon im-music-toggle__icon--equalizer" aria-hidden>
+          <span className="im-music-toggle__bar" />
+          <span className="im-music-toggle__bar" />
+          <span className="im-music-toggle__bar" />
+          <span className="im-music-toggle__bar" />
+        </span>
       </button>
     </div>
   )

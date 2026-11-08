@@ -1,4 +1,4 @@
-import { ExternalLink, MapPinned } from 'lucide-react'
+import { ExternalLink, MapPin, MapPinned } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { fadeUp, slideFromLeft, slideFromRight } from '@/components/animations/variants'
 import { LuxuryImage } from '@/components/common/LuxuryImage'
@@ -9,7 +9,25 @@ interface VenueSectionProps {
   config: WeddingConfig
 }
 
+function toDisplayDate(date: string, timezone: string) {
+  const parsedDate = new Date(`${date}T00:00:00`)
+  return new Intl.DateTimeFormat('en-IN', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    timeZone: timezone,
+  }).format(parsedDate)
+}
+
 export function VenueSection({ config }: VenueSectionProps) {
+  const latitude = config.wedding.latitude
+  const longitude = config.wedding.longitude
+  const hasCoordinates = Number.isFinite(latitude) && Number.isFinite(longitude)
+
+  const mapSrc = hasCoordinates
+    ? `https://www.openstreetmap.org/export/embed.html?bbox=${(longitude as number) - 0.01}%2C${(latitude as number) - 0.01}%2C${(longitude as number) + 0.01}%2C${(latitude as number) + 0.01}&layer=mapnik&marker=${latitude}%2C${longitude}`
+    : ''
+
   return (
     <section
       id="venue"
@@ -23,9 +41,9 @@ export function VenueSection({ config }: VenueSectionProps) {
           variants={fadeUp}
         >
           <RoyalSectionHeader
-            eyebrow="Where the Celebration Begins"
-            title={config.wedding.venueName}
-            description={`${config.wedding.dateRangeLabel} • ${config.wedding.venueAddress}`}
+            eyebrow="Find Your Way"
+            title="Celebration Venues"
+            description="Tap the map and get directions to celebrate with us."
           />
         </motion.div>
 
@@ -87,6 +105,65 @@ export function VenueSection({ config }: VenueSectionProps) {
             </div>
           </motion.aside>
         </div>
+
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          className="royal-card mt-6 overflow-hidden p-4 sm:p-5"
+        >
+          <div className="grid gap-4 lg:grid-cols-[1.2fr_1fr]">
+            <div className="overflow-hidden rounded-xl border border-royal-gold/30">
+              {hasCoordinates ? (
+                <iframe
+                  title={`${config.wedding.venueName} map`}
+                  src={mapSrc}
+                  className="h-[290px] w-full border-0 sm:h-[360px]"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              ) : (
+                <LuxuryImage
+                  src={config.media.venueImage}
+                  alt={`${config.wedding.venueName} map preview`}
+                  fallbackLabel="Map Preview"
+                  className="h-[290px] w-full object-cover sm:h-[360px]"
+                />
+              )}
+            </div>
+
+            <article className="rounded-xl border border-royal-gold/25 bg-royal-burgundyDark/45 p-4 sm:p-5">
+              <p className="inline-flex items-center gap-2 font-serif text-xs uppercase tracking-[0.2em] text-royal-goldLight">
+                <MapPin size={14} />
+                Event Schedule at Venue
+              </p>
+              <div className="mt-4 space-y-2.5">
+                {config.events.map((event) => (
+                  <div
+                    key={event.id}
+                    className="rounded-lg border border-royal-gold/20 bg-royal-burgundy/55 px-3 py-2"
+                  >
+                    <p className="font-serif text-sm text-amber-100">{event.title}</p>
+                    <p className="mt-1 text-[0.68rem] uppercase tracking-[0.13em] text-royal-goldLight">
+                      {event.displayTime ?? event.startTime} •{' '}
+                      {toDisplayDate(event.date, config.wedding.timezone)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <a
+                href={config.wedding.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full border border-royal-gold/60 bg-royal-burgundyDark/80 px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.13em] text-royal-goldLight transition hover:bg-royal-wine hover:text-amber-100"
+              >
+                <ExternalLink size={14} />
+                Open Full Directions
+              </a>
+            </article>
+          </div>
+        </motion.div>
       </div>
     </section>
   )

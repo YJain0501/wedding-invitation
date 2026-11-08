@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Eye } from 'lucide-react'
-import { fadeUp, scaleIn, slideFromLeft, slideFromRight, staggerChildren } from '@/components/animations/variants'
+import { fadeUp, slideFromLeft, slideFromRight, staggerChildren } from '@/components/animations/variants'
 import { LuxuryImage } from '@/components/common/LuxuryImage'
 import { RoyalSectionHeader } from '@/components/common/RoyalSectionHeader'
 import type { WeddingConfig } from '@/config/weddingConfig'
@@ -19,6 +18,7 @@ interface CoupleCardProps {
   fallbackLabel: string
   revealed: boolean
   overlayLabel: string
+  onReveal: () => void
 }
 
 function CoupleCard({
@@ -30,6 +30,7 @@ function CoupleCard({
   fallbackLabel,
   revealed,
   overlayLabel,
+  onReveal,
 }: CoupleCardProps) {
   return (
     <article className="royal-card overflow-hidden rounded-2xl p-4 text-center sm:p-6">
@@ -37,29 +38,36 @@ function CoupleCard({
         {label}
       </p>
       <div className="relative mx-auto h-72 w-full max-w-[270px] [perspective:1200px] sm:h-80">
-        <LuxuryImage
-          src={image}
-          alt={`${name} portrait`}
-          className="h-full w-full rounded-[1.8rem] border border-royal-gold/45 object-cover shadow-gold"
-          fallbackLabel={fallbackLabel}
-        />
-        <motion.div
-          initial={false}
-          animate={
-            revealed
-              ? { rotateY: -168, opacity: 0.08 }
-              : { rotateY: 0, opacity: 1 }
-          }
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          style={{ transformOrigin: 'left center' }}
-          className="absolute inset-0 rounded-[1.8rem] border border-royal-gold/45 bg-gradient-to-br from-royal-burgundy to-royal-burgundyDark p-4"
+        <button
+          type="button"
+          onClick={onReveal}
+          className="relative block h-full w-full overflow-hidden rounded-[1.8rem] border border-royal-gold/45 text-left shadow-gold"
+          aria-label={revealed ? `${name} portrait revealed` : `Reveal ${name} portrait`}
         >
-          <div className="grid h-full place-items-center rounded-[1.2rem] border border-royal-gold/35">
-            <p className="px-5 font-serif text-sm uppercase tracking-[0.16em] text-royal-goldLight">
-              {overlayLabel}
-            </p>
-          </div>
-        </motion.div>
+          <LuxuryImage
+            src={image}
+            alt={`${name} portrait`}
+            className="h-full w-full object-cover"
+            fallbackLabel={fallbackLabel}
+          />
+          <motion.div
+            initial={false}
+            animate={
+              revealed
+                ? { rotateY: -168, opacity: 0.08 }
+                : { rotateY: 0, opacity: 1 }
+            }
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            style={{ transformOrigin: 'left center' }}
+            className="absolute inset-0 rounded-[1.8rem] border border-royal-gold/45 bg-gradient-to-br from-royal-burgundy to-royal-burgundyDark p-4"
+          >
+            <div className="grid h-full place-items-center rounded-[1.2rem] border border-royal-gold/35">
+              <p className="px-5 text-center font-serif text-sm uppercase tracking-[0.16em] text-royal-goldLight">
+                {revealed ? 'Portrait Revealed' : overlayLabel}
+              </p>
+            </div>
+          </motion.div>
+        </button>
       </div>
       <h3 className="mt-5 font-script text-5xl text-amber-100">{name}</h3>
       {familyIntroduction ? (
@@ -72,7 +80,23 @@ function CoupleCard({
 }
 
 export function CoupleSection({ config }: CoupleSectionProps) {
-  const [isRevealed, setIsRevealed] = useState(false)
+  const [revealedPortraits, setRevealedPortraits] = useState({
+    groom: false,
+    bride: false,
+  })
+
+  const revealPortrait = (person: 'groom' | 'bride') => {
+    setRevealedPortraits((current) => {
+      if (current[person]) {
+        return current
+      }
+
+      return {
+        ...current,
+        [person]: true,
+      }
+    })
+  }
 
   return (
     <section
@@ -84,30 +108,14 @@ export function CoupleSection({ config }: CoupleSectionProps) {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.18 }}
-        onViewportEnter={() => {
-          setIsRevealed(true)
-        }}
         variants={staggerChildren}
       >
         <motion.div variants={fadeUp}>
           <RoyalSectionHeader
             eyebrow="Couple Portrait Reveal"
             title="A Glimpse of the Couple"
-            description="Tap reveal to unveil the bride and groom portraits."
+            description="By default, both portraits stay hidden. Tap each frame to reveal them."
           />
-        </motion.div>
-
-        <motion.div variants={scaleIn} className="mt-6 text-center">
-          <button
-            type="button"
-            onClick={() => {
-              setIsRevealed((current) => !current)
-            }}
-            className="inline-flex items-center gap-2 rounded-full border border-royal-gold/60 bg-royal-burgundyDark/80 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.15em] text-royal-goldLight transition hover:bg-royal-wine hover:text-amber-100"
-          >
-            <Eye size={14} />
-            {isRevealed ? 'Hide Portraits' : 'Reveal Portraits'}
-          </button>
         </motion.div>
 
         <div className="mt-8 grid gap-5 md:grid-cols-2">
@@ -119,8 +127,11 @@ export function CoupleSection({ config }: CoupleSectionProps) {
               image={config.groom.image}
               familyIntroduction={config.groom.familyIntroduction}
               fallbackLabel="Groom Portrait"
-              revealed={isRevealed}
+              revealed={revealedPortraits.groom}
               overlayLabel="Tap Reveal for Groom"
+              onReveal={() => {
+                revealPortrait('groom')
+              }}
             />
           </motion.div>
 
@@ -132,8 +143,11 @@ export function CoupleSection({ config }: CoupleSectionProps) {
               image={config.bride.image}
               familyIntroduction={config.bride.familyIntroduction}
               fallbackLabel="Bride Portrait"
-              revealed={isRevealed}
+              revealed={revealedPortraits.bride}
               overlayLabel="Tap Reveal for Bride"
+              onReveal={() => {
+                revealPortrait('bride')
+              }}
             />
           </motion.div>
         </div>

@@ -57,10 +57,59 @@
 @keyframes arrow-bounce {
   0%,
   100% {
-    transform: translate3d(-50%, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
   50% {
-    transform: translate3d(-50%, 8px, 0);
+    transform: translate3d(0, 8px, 0);
+  }
+}
+
+@keyframes hero-video-twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes hero-video-petal-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -8vh, 0) rotate(0deg);
+  }
+  10% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.75;
+    transform: translate3d(var(--hero-petal-drift, 0px), 55vh, 0) rotate(160deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(var(--hero-petal-drift, 0px) * 1.15), 112vh, 0)
+      rotate(320deg);
+  }
+}
+
+@keyframes hero-firework-bloom {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0) scale(0.1);
+  }
+  10% {
+    opacity: 0.95;
+  }
+  42% {
+    opacity: 0.82;
+    transform: translate3d(-50%, -50%, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0) scale(1.35);
   }
 }
 
@@ -98,13 +147,51 @@
   animation-iteration-count: infinite;
 }
 
+.hero-video-sparkle {
+  animation: hero-video-twinkle 3s ease-in-out infinite;
+  background: #c9a55d;
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(201, 165, 93, 0.9);
+  position: absolute;
+}
+
+.hero-video-petal {
+  animation-iteration-count: infinite;
+  animation-name: hero-video-petal-fall;
+  animation-timing-function: linear;
+  background: rgba(200, 150, 160, 0.5);
+  border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+  position: absolute;
+  top: -8vh;
+}
+
+.hero-firework {
+  animation: hero-firework-bloom 3.6s ease-out infinite;
+  background:
+    radial-gradient(circle at center, rgba(255, 248, 223, 0.45) 0 18%, transparent 38%),
+    repeating-conic-gradient(
+      from 0deg,
+      rgba(255, 224, 156, 0.95) 0deg 8deg,
+      transparent 8deg 16deg
+    );
+  border-radius: 999px;
+  filter: drop-shadow(0 0 10px rgba(249, 211, 132, 0.8));
+  mask: radial-gradient(circle at center, transparent 0 24%, black 26% 50%, transparent 52%);
+  opacity: 0;
+  position: absolute;
+  transform: translate3d(-50%, -50%, 0) scale(0.4);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-royal-float,
   .animate-gold-pulse,
   .animate-lantern-sway,
   .animate-shimmer,
   .animate-arrow-bounce,
-  .particle-dot {
+  .particle-dot,
+  .hero-video-sparkle,
+  .hero-video-petal,
+  .hero-firework {
     animation: none;
   }
 }

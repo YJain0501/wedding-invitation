@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Flower2 } from 'lucide-react'
 import { doorOpenLeft, doorOpenRight } from '@/components/animations/variants'
@@ -11,6 +11,9 @@ interface WelcomeSectionProps {
   brideName: string
   dateLabel: string
   backgroundImage: string
+  coverVideo?: string
+  coverPoster?: string
+  coverVideoDurationSeconds?: number
   onOpenStarted?: () => void
   onOpened: () => void
 }
@@ -20,14 +23,49 @@ export function WelcomeSection({
   brideName,
   dateLabel,
   backgroundImage,
+  coverVideo,
+  coverPoster,
+  coverVideoDurationSeconds,
   onOpenStarted,
   onOpened,
 }: WelcomeSectionProps) {
   const prefersReducedMotion = useReducedMotionPreference()
+  const hasCoverVideo = Boolean(coverVideo)
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+  const openingTimerRef = useRef<number | undefined>(undefined)
+  const hasCompletedRef = useRef(false)
   const [isOpening, setIsOpening] = useState(false)
+  const [isVideoReady, setIsVideoReady] = useState(false)
+  const [isRevealSequence, setIsRevealSequence] = useState(false)
+  const [isClosing, setIsClosing] = useState(false)
   const reducedMotionDoorState = isOpening
     ? { opacity: 0.12, transition: { duration: 0.35 } }
     : { opacity: 1, transition: { duration: 0.2 } }
+
+  useEffect(() => () => {
+    if (openingTimerRef.current) {
+      window.clearTimeout(openingTimerRef.current)
+    }
+  }, [])
+
+  const completeOpening = () => {
+    if (hasCompletedRef.current) {
+      return
+    }
+
+    hasCompletedRef.current = true
+    setIsRevealSequence(true)
+
+    const revealDuration = prefersReducedMotion ? 420 : 1300
+    openingTimerRef.current = window.setTimeout(() => {
+      setIsClosing(true)
+
+      const fadeDuration = prefersReducedMotion ? 220 : 540
+      openingTimerRef.current = window.setTimeout(() => {
+        onOpened()
+      }, fadeDuration)
+    }, revealDuration)
+  }
 
   const openInvitation = () => {
     if (isOpening) {
@@ -37,10 +75,120 @@ export function WelcomeSection({
     onOpenStarted?.()
     setIsOpening(true)
 
+    if (hasCoverVideo) {
+      const videoDurationMs = Math.max(1200, (coverVideoDurationSeconds ?? 12) * 1000)
+      const videoElement = videoRef.current
+
+      const openAfterDuration = () => {
+        openingTimerRef.current = window.setTimeout(() => {
+          completeOpening()
+        }, videoDurationMs)
+      }
+
+      if (!videoElement) {
+        openAfterDuration()
+        return
+      }
+
+      const playAttempt = videoElement.play()
+
+      if (!playAttempt || typeof playAttempt.then !== 'function') {
+        openAfterDuration()
+        return
+      }
+
+      playAttempt
+        .then(() => {
+          openAfterDuration()
+        })
+        .catch(() => {
+          openingTimerRef.current = window.setTimeout(() => {
+            completeOpening()
+          }, prefersReducedMotion ? 650 : 1800)
+        })
+
+      return
+    }
+
     const delay = prefersReducedMotion ? 550 : 2200
-    window.setTimeout(() => {
-      onOpened()
+    openingTimerRef.current = window.setTimeout(() => {
+      completeOpening()
     }, delay)
+  }
+
+  if (hasCoverVideo) {
+    return (
+      <motion.section
+        initial={{ opacity: 1 }}
+        exit={{ opacity: 0, transition: { duration: 0.7, ease: 'easeInOut' } }}
+        className={`im-cover-video fixed inset-0 z-[90] overflow-hidden ${isOpening ? 'is-playing' : ''} ${isClosing ? 'is-closing' : ''}`.trim()}
+      >
+        <video
+          ref={videoRef}
+          className="im-cover-video__video"
+          src={coverVideo}
+          poster={coverPoster}
+          style={{ objectPosition: '50% 57%' }}
+          playsInline
+          disablePictureInPicture
+          preload="auto"
+          onPlaying={() => {
+            setIsVideoReady(true)
+          }}
+          onEnded={() => {
+            completeOpening()
+          }}
+        />
+
+        {coverPoster ? (
+          <img
+            className={`im-cover-video__poster-overlay transition-opacity duration-500 ${isVideoReady ? 'opacity-0' : 'opacity-100'}`}
+            src={coverPoster}
+            style={{ objectPosition: '50% 57%' }}
+            alt=""
+          />
+        ) : null}
+
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(10,3,5,0.2)_0%,rgba(12,4,8,0.56)_56%,rgba(12,4,8,0.9)_100%)]" />
+        <div className={`im-cover-video__reveal ${isRevealSequence ? 'is-active' : ''}`}>
+          <span className="im-cover-video__reveal-light" />
+          <span className="im-cover-video__reveal-door im-cover-video__reveal-door--left" />
+          <span className="im-cover-video__reveal-door im-cover-video__reveal-door--right" />
+        </div>
+
+        <div className="pointer-events-none absolute bottom-28 left-1/2 z-[2] w-[min(92vw,24rem)] -translate-x-1/2 px-2 text-center text-royal-ivory sm:bottom-32">
+          <p className="font-serif text-[0.62rem] uppercase tracking-[0.25em] text-royal-goldLight/90 sm:text-[0.7rem]">
+            An Invitation to Celebrate Love
+          </p>
+          <h1 className="mt-3 font-serif text-2xl uppercase tracking-[0.11em] text-amber-100 sm:text-3xl">
+            {groomName}
+          </h1>
+          <p className="my-0.5 font-script text-4xl text-royal-goldLight sm:text-5xl">
+            &
+          </p>
+          <h2 className="font-serif text-2xl uppercase tracking-[0.11em] text-amber-100 sm:text-3xl">
+            {brideName}
+          </h2>
+          <p className="mt-2 font-serif text-[0.66rem] uppercase tracking-[0.23em] text-royal-goldLight sm:text-xs">
+            {dateLabel}
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={openInvitation}
+          disabled={isOpening}
+          className="im-cover-video__play-btn bottom-8 left-1/2 top-auto z-[3] -translate-x-1/2 !rounded-full !px-6 !py-2.5 text-royal-ivory transition hover:text-amber-100 disabled:cursor-not-allowed disabled:opacity-80 sm:bottom-10"
+          style={{ color: '#fffdf8', backgroundColor: 'rgba(0, 0, 0, 0.35)' }}
+          aria-label="Tap to open invitation"
+        >
+          <span className="im-cover-video__play-btn-shine" />
+          <span className="im-cover-video__play-btn-label">
+            {isOpening ? 'Opening...' : 'Tap to Open'}
+          </span>
+        </button>
+      </motion.section>
+    )
   }
 
   return (

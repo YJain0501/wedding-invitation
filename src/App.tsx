@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { BackToTopButton } from '@/components/layout/BackToTopButton'
+import { CursorGlow } from '@/components/layout/CursorGlow'
 import { MobileQuickNav } from '@/components/layout/MobileQuickNav'
 import { MusicPlayer, type MusicPlayerHandle } from '@/components/layout/MusicPlayer'
 import { ScrollProgressBar } from '@/components/layout/ScrollProgressBar'
@@ -30,7 +31,7 @@ function App() {
   }, [showWelcome])
 
   return (
-    <div className="relative min-h-svh bg-royal-burgundyDark text-royal-ivory">
+    <div className="relative min-h-svh bg-royal-burgundyDark pb-24 text-royal-ivory md:pb-0">
       <ScrollProgressBar />
       <HeroSection config={weddingConfig} />
       <InvitationSection config={weddingConfig} />
@@ -48,8 +49,9 @@ function App() {
         src={weddingConfig.media.backgroundMusic}
         youtubeUrl={weddingConfig.media.backgroundMusicYouTubeUrl}
       />
-      <BackToTopButton />
-      <MobileQuickNav />
+      <CursorGlow />
+      {!showWelcome ? <BackToTopButton /> : null}
+      {!showWelcome ? <MobileQuickNav /> : null}
 
       <AnimatePresence>
         {showWelcome ? (
@@ -58,6 +60,9 @@ function App() {
             brideName={weddingConfig.bride.name}
             dateLabel={weddingConfig.wedding.dateRangeLabel.toUpperCase()}
             backgroundImage={weddingConfig.media.welcomeBackground}
+            coverVideo={weddingConfig.media.welcomeVideo}
+            coverPoster={weddingConfig.media.welcomePoster}
+            coverVideoDurationSeconds={weddingConfig.media.welcomeVideoDurationSeconds}
             onOpenStarted={() => {
               musicPlayerRef.current?.playFromUserGesture()
             }}

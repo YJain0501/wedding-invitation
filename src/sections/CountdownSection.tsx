@@ -58,14 +58,16 @@ export function CountdownSection({ config }: CountdownSectionProps) {
           {UNIT_LABELS.map((label, index) => (
             <article
               key={label}
-              className="royal-card rounded-2xl p-4 text-center sm:p-5"
+              className="flex justify-center"
             >
-              <p className="font-serif text-4xl text-amber-100 sm:text-5xl">
-                {values[index]}
-              </p>
-              <p className="mt-2 text-xs uppercase tracking-[0.18em] text-royal-goldLight">
-                {label}
-              </p>
+              <div className="flex h-[74px] w-[74px] flex-col items-center justify-center rounded-full border border-royal-gold/45 bg-royal-burgundyDark/55 shadow-[0_18px_50px_-22px_rgba(198,154,82,0.45)] backdrop-blur-[6px] sm:h-[96px] sm:w-[96px]">
+                <p className="font-serif text-2xl text-amber-100 sm:text-[2rem]">
+                  {values[index]}
+                </p>
+                <p className="mt-0.5 text-[0.55rem] uppercase tracking-[0.18em] text-royal-goldLight sm:text-[0.6rem]">
+                  {label}
+                </p>
+              </div>
             </article>
           ))}
         </motion.div>

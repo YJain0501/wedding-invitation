@@ -32,7 +32,7 @@ export function BackToTopButton() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 18 }}
-          className="fixed bottom-5 right-5 z-50 inline-flex h-12 w-12 items-center justify-center rounded-full border border-royal-gold/60 bg-royal-burgundyDark/90 text-royal-goldLight shadow-gold backdrop-blur-sm transition hover:-translate-y-0.5 hover:text-amber-100"
+          className="fixed bottom-24 left-4 z-40 inline-flex h-11 w-11 items-center justify-center rounded-full border border-royal-gold/60 bg-royal-burgundyDark/90 text-royal-goldLight shadow-gold backdrop-blur-sm transition hover:-translate-y-0.5 hover:text-amber-100 md:bottom-5 md:left-auto md:right-5 md:h-12 md:w-12"
         >
           <ArrowUp size={20} />
         </motion.button>

@@ -230,37 +230,91 @@ export function EventsSection({ config }: EventsSectionProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45, ease: 'easeOut' }}
               >
-                <LuxuryImage
-                  src={selectedEvent.image ?? '/assets/images/events/event-placeholder.svg'}
-                  alt={`${selectedEvent.title} artwork`}
-                  fallbackLabel={selectedEvent.title}
-                  className="h-48 w-full rounded-xl border border-royal-gold/30 object-cover sm:h-60"
-                />
-                <p className="mt-4 text-xs uppercase tracking-[0.16em] text-royal-goldLight">
-                  Selected Event Experience
-                </p>
-                <h3 className="mt-2 font-serif text-3xl leading-tight text-amber-100">
-                  {selectedEvent.title}
-                </h3>
-                <p className="mt-3 text-sm text-royal-goldLight">
-                  {toDisplayDate(selectedEvent.date, config.wedding.timezone)} •{' '}
-                  {toDisplayTime(selectedEvent)}
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-royal-cream/90">
-                  {selectedEvent.description}
-                </p>
-                <p className="mt-4 text-sm text-royal-cream/95">
-                  {selectedEvent.venueName}
-                </p>
-                <a
-                  href={selectedEvent.mapsUrl ?? config.wedding.mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-5 inline-flex items-center gap-2 rounded-full border border-royal-gold/60 bg-royal-burgundyDark/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-royal-goldLight transition hover:bg-royal-wine hover:text-amber-100"
-                >
-                  <LocateFixed size={14} />
-                  Get Directions
-                </a>
+                <article className="relative overflow-hidden rounded-xl border border-royal-gold/30">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{
+                      backgroundImage: `url(${config.media.eventBackdrop ?? '/assets/images/backgrounds/event-card-bg.webp'})`,
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-royal-burgundyDark/85" />
+                  <span className="absolute left-3 top-3 h-5 w-5 border-l border-t border-royal-gold/70" />
+                  <span className="absolute right-3 top-3 h-5 w-5 border-r border-t border-royal-gold/70" />
+                  <span className="absolute bottom-3 left-3 h-5 w-5 border-b border-l border-royal-gold/70" />
+                  <span className="absolute bottom-3 right-3 h-5 w-5 border-b border-r border-royal-gold/70" />
+
+                  <div className="relative p-5 text-center sm:p-6">
+                    <div className="mx-auto mb-5 h-20 w-20 overflow-hidden rounded-md border border-royal-gold/55 bg-royal-burgundy/70 p-1 sm:h-24 sm:w-24">
+                      <LuxuryImage
+                        src={selectedEvent.image ?? '/assets/images/events/event-placeholder.svg'}
+                        alt={`${selectedEvent.title} artwork`}
+                        fallbackLabel={selectedEvent.title}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+
+                    <p className="text-[0.63rem] uppercase tracking-[0.22em] text-royal-goldLight">
+                      Join Us for the
+                    </p>
+                    <h3 className="mt-2 font-serif text-2xl leading-tight text-amber-100 sm:text-[2rem]">
+                      {selectedEvent.title}
+                    </h3>
+                    <div className="mx-auto mt-4 h-px w-28 bg-gradient-to-r from-transparent via-royal-gold/85 to-transparent" />
+
+                    <p className="mt-4 text-xs uppercase tracking-[0.16em] text-royal-goldLight">
+                      {toDisplayDate(selectedEvent.date, config.wedding.timezone)}
+                    </p>
+                    <p className="mt-1 text-sm italic text-royal-cream/95">
+                      {toDisplayTime(selectedEvent)}
+                    </p>
+                    <p className="mt-4 text-sm leading-relaxed text-royal-cream/90">
+                      {selectedEvent.description}
+                    </p>
+                    <p className="mt-4 text-xs uppercase tracking-[0.18em] text-royal-goldLight">
+                      {selectedEvent.venueName}
+                    </p>
+
+                    <div className="mt-5 flex flex-wrap items-center justify-center gap-2.5">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          downloadCalendarEvent({
+                            title: selectedEvent.title,
+                            startsAtIso: buildEventIso(
+                              selectedEvent.date,
+                              selectedEvent.startTime,
+                              timezoneOffset,
+                            ),
+                            endsAtIso: buildEventEndIso(
+                              selectedEvent.date,
+                              selectedEvent.startTime,
+                              selectedEvent.endTime,
+                              timezoneOffset,
+                            ),
+                            location: `${selectedEvent.venueName}, ${selectedEvent.venueAddress}`,
+                            description:
+                              selectedEvent.description ??
+                              `${selectedEvent.title} celebration for ${config.groom.name} and ${config.bride.name}.`,
+                            filename: `${selectedEvent.id}.ics`,
+                          })
+                        }}
+                        className="inline-flex items-center gap-1.5 rounded-full border border-royal-gold/60 bg-royal-burgundy/80 px-3 py-1.5 text-[0.64rem] font-semibold uppercase tracking-[0.13em] text-royal-goldLight transition hover:bg-royal-wine hover:text-amber-100"
+                      >
+                        <CalendarPlus size={13} />
+                        Add to Calendar
+                      </button>
+                      <a
+                        href={selectedEvent.mapsUrl ?? config.wedding.mapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-royal-gold/35 px-3 py-1.5 text-[0.64rem] font-semibold uppercase tracking-[0.13em] text-royal-cream transition hover:border-royal-gold/60 hover:text-amber-100"
+                      >
+                        <LocateFixed size={13} />
+                        Get Directions
+                      </a>
+                    </div>
+                  </div>
+                </article>
               </motion.div>
             ) : null}
           </motion.aside>
