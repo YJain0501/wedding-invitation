@@ -14,6 +14,7 @@ interface CoupleCardProps {
   relationshipPrefix: string
   name: string
   image: string
+  imageClassName?: string
   familyIntroduction?: string
   fallbackLabel: string
   revealed: boolean
@@ -26,6 +27,7 @@ function CoupleCard({
   relationshipPrefix,
   name,
   image,
+  imageClassName,
   familyIntroduction,
   fallbackLabel,
   revealed,
@@ -47,7 +49,7 @@ function CoupleCard({
           <LuxuryImage
             src={image}
             alt={`${name} portrait`}
-            className="h-full w-full object-cover"
+            className={`h-full w-full object-cover ${imageClassName ?? ''}`.trim()}
             fallbackLabel={fallbackLabel}
           />
           <motion.div
@@ -141,6 +143,7 @@ export function CoupleSection({ config }: CoupleSectionProps) {
               relationshipPrefix="Daughter of"
               name={config.bride.name}
               image={config.bride.image}
+              imageClassName="scale-[1.62] object-[50%_10%]"
               familyIntroduction={config.bride.familyIntroduction}
               fallbackLabel="Bride Portrait"
               revealed={revealedPortraits.bride}
