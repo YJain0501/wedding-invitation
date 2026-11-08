@@ -156,37 +156,39 @@ export function WelcomeSection({
           <span className="im-cover-video__reveal-door im-cover-video__reveal-door--right" />
         </div>
 
-        <div className="pointer-events-none absolute bottom-28 left-1/2 z-[2] w-[min(92vw,24rem)] -translate-x-1/2 px-2 text-center text-royal-ivory sm:bottom-32">
-          <p className="font-serif text-[0.62rem] uppercase tracking-[0.25em] text-royal-goldLight/90 sm:text-[0.7rem]">
-            An Invitation to Celebrate Love
-          </p>
-          <h1 className="mt-3 font-serif text-2xl uppercase tracking-[0.11em] text-amber-100 sm:text-3xl">
-            {groomName}
-          </h1>
-          <p className="my-0.5 font-script text-4xl text-royal-goldLight sm:text-5xl">
-            &
-          </p>
-          <h2 className="font-serif text-2xl uppercase tracking-[0.11em] text-amber-100 sm:text-3xl">
-            {brideName}
-          </h2>
-          <p className="mt-2 font-serif text-[0.66rem] uppercase tracking-[0.23em] text-royal-goldLight sm:text-xs">
-            {dateLabel}
-          </p>
-        </div>
+        <div className="absolute inset-0 z-[3] flex items-center justify-center px-4">
+          <div className="w-[min(92vw,24rem)] text-center text-royal-ivory">
+            <p className="font-serif text-[0.62rem] uppercase tracking-[0.25em] text-royal-goldLight/90 sm:text-[0.7rem]">
+              An Invitation to Celebrate Love
+            </p>
+            <h1 className="mt-3 font-serif text-2xl uppercase tracking-[0.11em] text-amber-100 sm:text-3xl">
+              {groomName}
+            </h1>
+            <p className="my-0.5 font-script text-4xl text-royal-goldLight sm:text-5xl">
+              &
+            </p>
+            <h2 className="font-serif text-2xl uppercase tracking-[0.11em] text-amber-100 sm:text-3xl">
+              {brideName}
+            </h2>
+            <p className="mt-2 font-serif text-[0.66rem] uppercase tracking-[0.23em] text-royal-goldLight sm:text-xs">
+              {dateLabel}
+            </p>
 
-        <button
-          type="button"
-          onClick={openInvitation}
-          disabled={isOpening}
-          className="im-cover-video__play-btn bottom-8 left-1/2 top-auto z-[3] -translate-x-1/2 !rounded-full !px-6 !py-2.5 text-royal-ivory transition hover:text-amber-100 disabled:cursor-not-allowed disabled:opacity-80 sm:bottom-10"
-          style={{ color: '#fffdf8', backgroundColor: 'rgba(0, 0, 0, 0.35)' }}
-          aria-label="Tap to open invitation"
-        >
-          <span className="im-cover-video__play-btn-shine" />
-          <span className="im-cover-video__play-btn-label">
-            {isOpening ? 'Opening...' : 'Tap to Open'}
-          </span>
-        </button>
+            <button
+              type="button"
+              onClick={openInvitation}
+              disabled={isOpening}
+              className="im-cover-video__play-btn !static !left-auto !top-auto !mt-6 !inline-flex !-translate-x-0 !-translate-y-0 !rounded-full !px-6 !py-2.5 text-royal-ivory transition hover:text-amber-100 disabled:cursor-not-allowed disabled:opacity-80"
+              style={{ color: '#fffdf8', backgroundColor: 'rgba(0, 0, 0, 0.35)' }}
+              aria-label="Tap to open invitation"
+            >
+              <span className="im-cover-video__play-btn-shine" />
+              <span className="im-cover-video__play-btn-label">
+                {isOpening ? 'Opening...' : 'Tap to Open'}
+              </span>
+            </button>
+          </div>
+        </div>
       </motion.section>
     )
   }
@@ -195,7 +197,7 @@ export function WelcomeSection({
     <motion.section
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 0.8, ease: 'easeInOut' } }}
-      className="fixed inset-0 z-[90] flex min-h-svh items-center justify-center overflow-hidden px-4 pb-4 pt-10 sm:px-6"
+      className="fixed inset-0 z-[90] flex min-h-[100dvh] items-center justify-center overflow-hidden px-4 pb-4 pt-10 sm:px-6"
       style={{
         backgroundImage: `linear-gradient(180deg, rgba(15, 3, 7, 0.58), rgba(12, 2, 6, 0.82)), url(${backgroundImage})`,
         backgroundPosition: 'center',

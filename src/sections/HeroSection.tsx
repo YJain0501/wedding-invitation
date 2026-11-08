@@ -16,7 +16,6 @@ const NAV_LINKS = [
   { href: '#invitation-message', label: 'Invitation' },
   { href: '#events', label: 'Events' },
   { href: '#venue', label: 'Venue' },
-  { href: '#rsvp', label: 'RSVP' },
 ]
 
 const HERO_PETALS = [
@@ -53,7 +52,7 @@ export function HeroSection({ config }: HeroSectionProps) {
   return (
     <section
       id="hero"
-      className="relative flex min-h-svh items-center overflow-hidden px-3 pb-16 pt-8 sm:px-6 sm:pb-16"
+      className="relative flex min-h-[100dvh] items-center overflow-hidden px-3 pb-16 pt-8 sm:px-6 sm:pb-16"
       style={!hasHeroVideo ? fallbackBackgroundStyle : undefined}
     >
       {hasHeroVideo ? (

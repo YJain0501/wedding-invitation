@@ -13,7 +13,6 @@ import { FooterSection } from '@/sections/FooterSection'
 import { GallerySection } from '@/sections/GallerySection'
 import { HeroSection } from '@/sections/HeroSection'
 import { InvitationSection } from '@/sections/InvitationSection'
-import { RSVPSection } from '@/sections/RSVPSection'
 import { SurpriseSection } from '@/sections/SurpriseSection'
 import { VenueSection } from '@/sections/VenueSection'
 import { WelcomeSection } from '@/sections/WelcomeSection'
@@ -31,7 +30,7 @@ function App() {
   }, [showWelcome])
 
   return (
-    <div className="relative min-h-svh bg-royal-burgundyDark pb-24 text-royal-ivory md:pb-0">
+    <div className="relative min-h-[100dvh] overflow-x-hidden bg-royal-burgundyDark pb-24 text-royal-ivory md:pb-0">
       <ScrollProgressBar />
       <HeroSection config={weddingConfig} />
       <InvitationSection config={weddingConfig} />
@@ -41,7 +40,6 @@ function App() {
       <GallerySection config={weddingConfig} />
       <VenueSection config={weddingConfig} />
       <SurpriseSection config={weddingConfig} />
-      <RSVPSection config={weddingConfig} />
       <FooterSection config={weddingConfig} />
 
       <MusicPlayer
